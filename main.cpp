@@ -1,6 +1,6 @@
 
 #include "GameServer.h"
-#include "MySQL.h"
+#include "DB.h"
 
 
 const UINT16 SERVER_PORT = 11021;
@@ -23,7 +23,7 @@ int main(void) {
 
 	server.Run();
 
-	//MySQL::GetInstance()->Query("%d %d %dn\n", 1, 2, 3);
+	//DB::GetInstance()->Query("%d %d %d\n", 1, 2, 3);
 	printf("quit ½Ã Á¾·á\n");
 	while (true)
 	{
@@ -37,7 +37,6 @@ int main(void) {
 	}
 	
 	//server.End()
-	//mysql_close(connection);
 	return 0;
 
 }

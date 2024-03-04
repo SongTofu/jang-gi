@@ -146,7 +146,7 @@
     <ClCompile Include="GameServer.cpp" />
     <ClCompile Include="IOCPServer.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MySQL.cpp" />
+    <ClCompile Include="DB.cpp" />
     <ClCompile Include="Packet.cpp" />
     <ClCompile Include="User.cpp" />
   </ItemGroup>
@@ -154,7 +154,7 @@
     <ClInclude Include="Define.h" />
     <ClInclude Include="GameServer.h" />
     <ClInclude Include="IOCPServer.h" />
-    <ClInclude Include="MySQL.h" />
+    <ClInclude Include="DB.h" />
     <ClInclude Include="Packet.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="User.h" />

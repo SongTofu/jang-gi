@@ -4,16 +4,15 @@
 #include <mysql.h>
 #include <strsafe.h>
 //ΩÃ±€≈Ê ∆–≈œ
-class MySQL : public Singleton<MySQL>
+class DB : public Singleton<DB>
 {
 public:
-	MySQL();
-	~MySQL();
+	DB();
+	~DB();
 	bool Query(STRSAFE_LPCSTR query, ...);
-
 private:
-	MYSQL* connection;
-	MYSQL_RES* sql_result;
-	MYSQL_ROW sql_row;
+	MYSQL* connection = 0;
+	MYSQL_RES* sql_result = 0;
+	MYSQL_ROW sql_row = 0;
 };
 

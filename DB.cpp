@@ -1,8 +1,8 @@
-#include "MySQL.h"
+#include "DB.h"
 #include "Define.h"
 #include <iostream>
 
-MySQL::MySQL()
+DB::DB()
 {
 	MYSQL conn;
 
@@ -14,12 +14,9 @@ MySQL::MySQL()
 		fprintf(stderr, "Mysql connection error: %s\n", mysql_error(&conn));
 		exit(1);
 	}
-	//query_stat = mysql_query(this->connection, "select 1");
-	//if (query_stat != 0)
-	//{
-	//	fprintf(stderr, "Mysql querey error: %s\n", mysql_error(&conn));
-	//	exit(1);
-	//}
+	std::cout << "[Suceess] Connected with MySQL\n";
+	//mysql_query(this->connection, "select 1");
+	//
 
 	//sql_result = mysql_store_result(this->connection);
 	//while ((sql_row = mysql_fetch_row(sql_result)) != NULL)
@@ -27,12 +24,12 @@ MySQL::MySQL()
 	
 }
 
-MySQL::~MySQL()
+DB::~DB()
 {
 	mysql_close(this->connection);
 }
 
-bool MySQL::Query(STRSAFE_LPCSTR query, ...) {
+bool DB::Query(STRSAFE_LPCSTR query, ...) {
 	char buf[1024] = "";
 	va_list args;
 
