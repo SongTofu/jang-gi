@@ -83,10 +83,9 @@ void IOCPServer::Run()
 	}
 }
 
-
 void IOCPServer::AcceptThread()
 {
-	while (true)
+	while (isRunning)
 	{
 		SOCKADDR_IN	sockAddr;
 		int addrLen = sizeof(sockAddr);
@@ -97,7 +96,6 @@ void IOCPServer::AcceptThread()
 			printf("ERROR :: accept() 함수 실패 : %d\n", WSAGetLastError());
 			continue;
 		}
-
 		User* user = new User();
 		user->SetSocket(sock);
 		
@@ -128,19 +126,21 @@ void IOCPServer::AcceptThread()
 
 }
 
-bool IOCPServer::CreateThread()
+void IOCPServer::CreateThread()
 {
-	while (true)
+	while (isRunning)
 	{
 		DWORD	numberOfBytes = 0;
 		User* user = NULL;
-		//recive 오는 것 받기
 		stOverlappedEx* overlapped;
 		bool success = GetQueuedCompletionStatus(IOCPHandle, &numberOfBytes, reinterpret_cast<PULONG_PTR>(&user), reinterpret_cast<LPOVERLAPPED*>(&overlapped), INFINITE); //cpp 형변환
-
-		if (success == false)
+		
+		if (success == false && GetLastError() == 258) {
+			continue;
+		}
+		else if (success == false)
 		{
-			printf("ERROR :: GetQueuedCompletionStatus() 실패\n");
+			printf("ERROR :: GetQueuedCompletionStatus() 실패  %d\n", GetLastError());
 			continue;
 		}
 	
@@ -160,5 +160,41 @@ bool IOCPServer::CreateThread()
 		}
 
 	}
+}
 
+//void IOCPServer::CloseSocket(User* user)
+//{
+//	if (user == NULL)
+//		return;
+//
+//	SOCKET sock = user->GetSocket();
+//	struct linger stLinger = { 0, 0 };
+//
+//	shutdown(sock, SD_BOTH);
+//
+//	setsockopt(sock, SOL_SOCKET, SO_LINGER, (char*)&stLinger, sizeof(stLinger));
+//
+//	closesocket(sock);
+//
+//	user->SetSocket(INVALID_SOCKET);
+//
+//}
+
+void IOCPServer::End()
+{
+	isRunning = false;
+	closesocket(listenSocket);
+	if (accepterThread.joinable())
+	{
+		accepterThread.join();
+	}
+
+	CloseHandle(IOCPHandle);
+	for(auto& th :IOWorkerThreads)
+	{
+		if (th.joinable())
+		{
+			th.join();
+		}
+	}
 }

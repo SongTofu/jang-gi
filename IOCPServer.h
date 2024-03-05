@@ -39,8 +39,10 @@ public:
 	bool BindandListen(int bindPort_);
 	void Run();
 	void AcceptThread();
-	bool	CreateThread();
-	
+	void	CreateThread();
+	//void CloseSocket(User* user);
+	void End();
+
 	virtual void Connect() {};
 	virtual void Disconnect(User* user) = 0;
 	virtual void Receive(User* user, stOverlappedEx* overlapped, DWORD size) = 0;
@@ -53,6 +55,8 @@ private:
 	HANDLE	IOCPHandle = INVALID_HANDLE_VALUE;
 	std::thread accepterThread;
 	std::vector<std::thread> IOWorkerThreads;
+
+	bool isRunning = true;
 
 };
 

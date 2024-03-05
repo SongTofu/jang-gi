@@ -20,8 +20,11 @@ public:
 	WORD	GetRemainSize();
 
 private:
+	UINT32	index;
 	char buf[MAX_BUF_SIZE] = {};
 	WORD	size = 0;
 	SOCKET	socket = NULL;
+
+	std::string	userId;
 };
 
