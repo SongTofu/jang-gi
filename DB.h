@@ -23,6 +23,6 @@ private:
 	MYSQL_RES* sql_result = 0;
 	MYSQL_ROW sql_row = 0;
 	MYSQL conn;
-	WORD	index;
+	WORD	index = 0;
 };
 
