@@ -1,7 +1,7 @@
 
 #include "GameServer.h"
 #include "DB.h"
-
+#include "UserManager.h"
 
 const UINT16 SERVER_PORT = 11021;
 //const UINT16 MAX_CLIENT = 100; 
@@ -16,6 +16,8 @@ int main(void) {
 	server.BindandListen(SERVER_PORT);
 
 	server.Run();
+
+	//UserManager::GetInstance()->Init();
 
 	// 쿼리 쓰는 법 좀 알기~
 

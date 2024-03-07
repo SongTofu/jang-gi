@@ -1,5 +1,5 @@
 #include "IOCPServer.h"
-
+#include "UserManager.h"
 
 IOCPServer::IOCPServer() {}
 
@@ -96,8 +96,14 @@ void IOCPServer::AcceptThread()
 			printf("ERROR :: accept() 함수 실패 : %d\n", WSAGetLastError());
 			continue;
 		}
-		User* user = new User();
-		user->SetSocket(sock);
+
+		User* user = UserManager::GetInstance()->CreateUser(sock);
+
+		if (user == NULL)
+		{
+			closesocket(sock);
+			continue;
+		}
 		
 		HANDLE handle = CreateIoCompletionPort(reinterpret_cast<HANDLE>(user->GetSocket()), IOCPHandle, reinterpret_cast<ULONG_PTR>(user), 0);
 		

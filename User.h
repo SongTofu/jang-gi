@@ -3,6 +3,7 @@
 //#include <Windows.h>
 #include <winsock2.h>
 #include <iostream>
+#include "Packet.h"
 
 #define MAX_BUF_SIZE 8000
 
@@ -12,9 +13,12 @@ public:
 	User() = default;
 	~User() = default;
 
+	void Init();
 	bool AddSize(WORD size);
 	void SetSocket(SOCKET socket);
+	void SetUserID(std::string str);
 
+	std::string GetUserID();
 	SOCKET	GetSocket();
 	char* GetBuf();
 	WORD	GetRemainSize();
@@ -25,6 +29,8 @@ private:
 	WORD	size = 0;
 	SOCKET	socket = NULL;
 
-	std::string	userId;
+	std::string	userID; //´Ð³×ÀÓ
+	UINT	record;
+	// password DB
 };
 

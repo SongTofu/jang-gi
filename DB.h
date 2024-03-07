@@ -4,10 +4,9 @@
 #include <mysql.h>
 #include <strsafe.h>
 
-class DB : public Singleton<DB>
+class DB : public Singleton<DB> //DB ½Ì±ÛÅæ?
 {
 public:
-	DB();
 	~DB();
 
 	DB& operator>>(int& i);
@@ -17,6 +16,10 @@ public:
 
 	bool Query(STRSAFE_LPCSTR query, ...);
 	bool Fetch();
+	friend Singleton;
+
+protected:
+	DB();
 
 private:
 	MYSQL* connection = 0;
